@@ -8,5 +8,7 @@
 
 ### Why I Turn Into Gin?
 I was scrolling down my twitter timeline and saw a tweet about Gin.
-And I immediately find out about gin
+And I immediately find out about gin.
+
+### Comparison
 [source](https://go.libhunt.com/compare-gin-vs-mux)

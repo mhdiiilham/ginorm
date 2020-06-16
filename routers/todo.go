@@ -8,4 +8,5 @@ import (
 // Todo ...
 func Todo(r *gin.Engine) {
 	r.GET("/todos", c.GetMyTodo)
+	r.POST("/todos", c.CreateTodo)
 }

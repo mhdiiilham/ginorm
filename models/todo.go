@@ -8,3 +8,8 @@ type Todo struct {
 	Title string `json:"title" gorm:"type:varchar(100)"`
 	UserID uint
 }
+
+// TodoInput ...
+type TodoInput struct {
+	Title string
+}

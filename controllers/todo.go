@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	// log "github.com/sirupsen/logrus"
-
 	"github.com/gin-gonic/gin"
 	"github.com/mhdiiilham/ginorm/db"
 	m "github.com/mhdiiilham/ginorm/models"
@@ -12,13 +10,35 @@ import (
 func GetMyTodo(c *gin.Context) {
 	var todos []m.Todo
 
-	metaData := c.MustGet("meta-data")
-
-	db.MySQL().Find(&todos)
+	db.MySQL().Where("user_id = ?", c.MustGet("userID")).Find(&todos)
 	c.JSON(200, gin.H{
 		"message": "Fetching todos success",
-		"data": metaData,
+		"data": todos,
 	})
 }
 
 // CreateTodo ...
+func CreateTodo(c *gin.Context)  {
+	var body m.TodoInput
+
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(400, gin.H{"errors": err.Error()})
+		return
+	}
+	user := m.User{}
+	getUser := db.MySQL().Where("id = ?", c.MustGet("userID")).Find(&user)
+	if getUser.Error != nil {
+		c.JSON(500, gin.H{"errors": "Internal Server Error"})
+		return
+	}
+	todo := m.Todo{
+		Title: body.Title,
+		UserID: user.ID,
+	}
+	saving := db.MySQL().Save(&todo)
+	if saving.Error != nil {
+		c.JSON(500, gin.H{"errors": "Internal Server Error"})
+		return
+	}
+	c.JSON(200, gin.H{"todo": todo})
+}

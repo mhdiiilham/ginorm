@@ -3,7 +3,10 @@ package helpers
 import (
 	"time"
 	"github.com/dgrijalva/jwt-go"
-	// log "github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
+	"fmt"
+	"strconv"
+	m "github.com/mhdiiilham/ginorm/models"
 )
 
 // CreateJWTToken ...
@@ -19,16 +22,55 @@ func CreateJWTToken(id uint, email string) (string, error) {
 	return at.SignedString([]byte("HelloWorld123"))
 }
 
-func verifyToken(ht string) (*jwt.Token, error) {
+// VerifyToken ...
+func VerifyToken(ht string) (*jwt.Token, error) {
 	token, err := jwt.Parse(ht, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", ok)
 		}
-		return []byte(os.Getenv("SECRET")), nil
+		return []byte("HelloWorld123"), nil
 	})
 	if err != nil{
 		return nil, err
 	}
 
 	return token, nil
+}
+
+
+// TokenValid ...
+func TokenValid(ht string) error {
+  token, err := VerifyToken(ht)
+  if err != nil {
+     return err
+  }
+  if _, ok := token.Claims.(jwt.Claims); !ok && !token.Valid {
+     return err
+  }
+  return nil
+}
+
+// ExtractedJWT ...
+func ExtractedJWT(ht string) (m.TokenMetaData, error) {
+	tokenMetaData := m.TokenMetaData{}
+	token, err := VerifyToken(ht)
+	if err != nil {
+		log.Info(err)
+		return tokenMetaData, err
+	}
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if ok && token.Valid {
+		userEmail, ok := claims["user_email"].(string)
+		if !ok {
+			return tokenMetaData, err
+		}
+		userID, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 64)
+		if err != nil {
+			return tokenMetaData, err
+		}
+		tokenMetaData.ID = userID
+		tokenMetaData.Email = userEmail
+		return tokenMetaData, nil
+	}
+	return tokenMetaData, err
 }

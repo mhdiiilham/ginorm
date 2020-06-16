@@ -2,6 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/mhdiiilham/ginorm/middlewares"
 )
 
 // Router main func
@@ -12,8 +13,8 @@ func Router() *gin.Engine {
 	User(r)
 
 	// Authorization here
+	r.Use(middleware.Authentication())
 	Todo(r)
-
 	return r
 }
 

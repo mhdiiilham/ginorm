@@ -25,3 +25,9 @@ type UserLoginInput struct {
 	Email string `json:"email"`
 	Password string `json:"password"`
 }
+
+// TokenMetaData ...
+type TokenMetaData struct {
+	ID uint64
+	Email string
+}

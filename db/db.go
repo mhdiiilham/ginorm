@@ -1,9 +1,9 @@
 package db
 
 import (
-	m "github.com/mhdiiilham/ginorm/models"
-  "github.com/jinzhu/gorm"
+	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	m "github.com/mhdiiilham/ginorm/models"
 	log "github.com/sirupsen/logrus"
 )
 

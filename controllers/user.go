@@ -20,12 +20,12 @@ func CreateUser(c *gin.Context) {
 	}
 
 	user := m.User{
-		FirstName: body.FirstName,
-		LastName: body.LastName,
-		Email: body.Email,
+		FirstName:      body.FirstName,
+		LastName:       body.LastName,
+		Email:          body.Email,
 		PasswordHashed: h.HashPassword([]byte(body.Password)),
 	}
-	
+
 	creatingUser := db.MySQL().Save(&user)
 
 	if creatingUser.Error != nil {
@@ -43,8 +43,8 @@ func CreateUser(c *gin.Context) {
 
 	c.JSON(201, gin.H{
 		"message": "Sign Up Success",
-		"email": user.Email,
-		"token": token,
+		"email":   user.Email,
+		"token":   token,
 	})
 
 }
@@ -74,7 +74,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := h.CreateJWTToken(user.ID, user.Email) 
+	token, err := h.CreateJWTToken(user.ID, user.Email)
 	if err != nil {
 		log.Warn("Error at creating token after signup. Error: ", err.Error())
 		c.JSON(500, gin.H{"errors": "Internal Server Error"})
@@ -83,8 +83,8 @@ func Login(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"message": "Sign In Success",
-		"email": user.Email,
-		"token": token,
+		"email":   user.Email,
+		"token":   token,
 	})
 
 }

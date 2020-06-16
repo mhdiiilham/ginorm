@@ -13,12 +13,12 @@ func GetMyTodo(c *gin.Context) {
 	db.MySQL().Where("user_id = ?", c.MustGet("userID")).Find(&todos)
 	c.JSON(200, gin.H{
 		"message": "Fetching todos success",
-		"data": todos,
+		"data":    todos,
 	})
 }
 
 // CreateTodo ...
-func CreateTodo(c *gin.Context)  {
+func CreateTodo(c *gin.Context) {
 	var body m.TodoInput
 
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -32,7 +32,7 @@ func CreateTodo(c *gin.Context)  {
 		return
 	}
 	todo := m.Todo{
-		Title: body.Title,
+		Title:  body.Title,
 		UserID: user.ID,
 	}
 	saving := db.MySQL().Save(&todo)

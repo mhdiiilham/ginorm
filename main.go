@@ -2,9 +2,9 @@ package main
 
 import (
 	db "github.com/mhdiiilham/ginorm/db"
-	"net/http"
 	"github.com/mhdiiilham/ginorm/routers"
 	log "github.com/sirupsen/logrus"
+	"net/http"
 )
 
 func main() {

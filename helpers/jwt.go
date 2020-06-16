@@ -1,12 +1,12 @@
 package helpers
 
 import (
-	"time"
-	"github.com/dgrijalva/jwt-go"
-	log "github.com/sirupsen/logrus"
 	"fmt"
-	"strconv"
+	"github.com/dgrijalva/jwt-go"
 	m "github.com/mhdiiilham/ginorm/models"
+	log "github.com/sirupsen/logrus"
+	"strconv"
+	"time"
 )
 
 // CreateJWTToken ...
@@ -30,24 +30,23 @@ func VerifyToken(ht string) (*jwt.Token, error) {
 		}
 		return []byte("HelloWorld123"), nil
 	})
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	return token, nil
 }
 
-
 // TokenValid ...
 func TokenValid(ht string) error {
-  token, err := VerifyToken(ht)
-  if err != nil {
-     return err
-  }
-  if _, ok := token.Claims.(jwt.Claims); !ok && !token.Valid {
-     return err
-  }
-  return nil
+	token, err := VerifyToken(ht)
+	if err != nil {
+		return err
+	}
+	if _, ok := token.Claims.(jwt.Claims); !ok && !token.Valid {
+		return err
+	}
+	return nil
 }
 
 // ExtractedJWT ...

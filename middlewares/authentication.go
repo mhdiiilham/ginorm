@@ -9,7 +9,7 @@ import (
 
 // Authentication ...
 func Authentication() gin.HandlerFunc {
-	return func (c *gin.Context) {
+	return func(c *gin.Context) {
 		bearerToken := c.Request.Header["Authorization"]
 		if len(bearerToken) <= 0 {
 			c.JSON(400, gin.H{"errors": "NOT AUTHORIZED"})
@@ -21,7 +21,7 @@ func Authentication() gin.HandlerFunc {
 			c.JSON(400, gin.H{"errors": "NOT AUTHORIZED"})
 			return
 		}
-		
+
 		// Check if token valid or not
 		err := h.TokenValid(token)
 		if err != nil {

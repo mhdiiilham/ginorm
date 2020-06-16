@@ -11,6 +11,9 @@ func Router() *gin.Engine {
 	r.GET("/", homeFunc)
 	User(r)
 
+	// Authorization here
+	Todo(r)
+
 	return r
 }
 

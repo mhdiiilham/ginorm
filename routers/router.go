@@ -9,6 +9,7 @@ func Router() *gin.Engine {
 	r := gin.Default()
 
 	r.GET("/", homeFunc)
+	User(r)
 
 	return r
 }

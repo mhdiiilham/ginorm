@@ -37,7 +37,6 @@ func Authentication() gin.HandlerFunc {
 			return
 		}
 
-		// c.Set("meta-data", metaData)
 		c.Set("userID", metaData.ID)
 
 		c.Next()

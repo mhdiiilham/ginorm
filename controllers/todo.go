@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/mhdiiilham/ginorm/db"
 	m "github.com/mhdiiilham/ginorm/models"
+	log "github.com/sirupsen/logrus"
 )
 
 // GetMyTodo ...
@@ -41,4 +42,18 @@ func CreateTodo(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{"todo": todo})
+}
+
+// GetTodoByID ...
+func GetTodoByID(c *gin.Context) {
+	var todo m.Todo
+	if err := db.MySQL().Where("id = ?", c.Param("id")).First(&todo).Error; err != nil {
+		log.Warn("THERE ERROR ON FECTHING TODO BY IT ID");
+		c.JSON(500, gin.H{"errors": "Internal Server Error"})
+		return
+	}
+	c.JSON(200, gin.H{
+		"Message": "Fetching Todo success",
+		"data": todo,
+	})
 }

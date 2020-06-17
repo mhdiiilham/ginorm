@@ -6,7 +6,7 @@ import "github.com/jinzhu/gorm"
 type Todo struct {
 	gorm.Model
 	Title  string `json:"title" gorm:"type:varchar(100)"`
-	UserID uint
+	UserID string
 }
 
 // TodoInput ...

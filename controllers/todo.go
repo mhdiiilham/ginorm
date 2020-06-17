@@ -10,7 +10,7 @@ import (
 // GetMyTodo ...
 func GetMyTodo(c *gin.Context) {
 	var todos []m.Todo
-	log.Info("tetap masuk sini ga sih?")
+
 	db.MySQL().Where("user_id = ?", c.MustGet("userID")).Find(&todos)
 	c.JSON(200, gin.H{
 		"message": "Fetching todos success",

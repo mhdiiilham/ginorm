@@ -14,12 +14,14 @@ func Authentication() gin.HandlerFunc {
 		bearerToken := c.Request.Header["Authorization"]
 		if len(bearerToken) <= 0 {
 			c.JSON(400, gin.H{"errors": "NOT AUTHORIZED"})
+			c.Abort()
 			return
 		}
 
 		token := strings.Split(bearerToken[0], " ")[1]
 		if len(token) <= 0 {
 			c.JSON(400, gin.H{"errors": "NOT AUTHORIZED"})
+			c.Abort()
 			return
 		}
 
@@ -27,6 +29,7 @@ func Authentication() gin.HandlerFunc {
 		err := h.TokenValid(token)
 		if err != nil {
 			c.JSON(500, gin.H{"errors": "TOKEN NOT VALID"})
+			c.Abort()
 			return
 		}
 
@@ -34,11 +37,11 @@ func Authentication() gin.HandlerFunc {
 		metaData, err := h.ExtractedJWT(token)
 		if err != nil {
 			c.JSON(400, gin.H{"errors": "TOKEN NOT VALID"})
+			c.Abort()
 			return
 		}
 
 		c.Set("userID", metaData.ID)
-
 		c.Next()
 	}
 }

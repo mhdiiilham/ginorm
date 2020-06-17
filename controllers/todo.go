@@ -10,9 +10,16 @@ import (
 
 // GetMyTodo ...
 func GetMyTodo(c *gin.Context) {
+	// Decalre variable that needed
 	var todos []m.Todo
 
-	db.MySQL().Where("user_id = ?", c.MustGet("userID")).Find(&todos)
+	// Fetch all todo from DB
+	// and assign it to todos
+	if err := db.MySQL().Where("user_id = ?", c.MustGet("userID")).Find(&todos); err != nil {
+		c.JSON(500, gin.H{"message": "Internal Server Error. Fething Todo failed, please try again!"})
+	}
+
+	// If all okay, send todo to client
 	c.JSON(200, gin.H{
 		"message": "Fetching todos success",
 		"data":    todos,
@@ -21,7 +28,7 @@ func GetMyTodo(c *gin.Context) {
 
 // CreateTodo ...
 func CreateTodo(c *gin.Context) {
-	// Delcare all variable that needed
+	// Delcare all variables that needed
 	userID := fmt.Sprintf("%v", c.MustGet("userID"))
 	var body m.TodoInput
 

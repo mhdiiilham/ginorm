@@ -7,7 +7,9 @@ import (
 
 // Todo ...
 func Todo(r *gin.Engine) {
-	r.GET("/todos", c.GetMyTodo)
-	r.GET("/todos/:id", c.GetTodoByID)
-	r.POST("/todos", c.CreateTodo)
+
+	r.GET("/todos", c.GetMyTodo) // Get all User's todo
+	r.GET("/todos/:id", c.GetTodoByID) // Get one of user's todo
+	r.POST("/todos", c.CreateTodo) // Creata a todo for user
+
 }

@@ -7,6 +7,8 @@ import (
 
 // User auth handler
 func User(r *gin.Engine) {
-	r.POST("/signup", c.CreateUser)
-	r.POST("/login", c.Login)
+
+	r.POST("/signup", c.CreateUser) // Create new user
+	r.POST("/login", c.Login) // Login existing user
+
 }

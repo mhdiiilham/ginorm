@@ -3,6 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	h "github.com/mhdiiilham/ginorm/helpers"
+
 	// log "github.com/sirupsen/logrus"
 	"strings"
 )
@@ -25,14 +26,14 @@ func Authentication() gin.HandlerFunc {
 		// Check if token valid or not
 		err := h.TokenValid(token)
 		if err != nil {
-			c.JSON(400, gin.H{"errors": "NOT AUTHORIZED"})
+			c.JSON(500, gin.H{"errors": "TOKEN NOT VALID"})
 			return
 		}
 
 		// Extracted token metadata
 		metaData, err := h.ExtractedJWT(token)
 		if err != nil {
-			c.JSON(400, gin.H{"errors": "NOT AUTHORIZED"})
+			c.JSON(400, gin.H{"errors": "TOKEN NOT VALID"})
 			return
 		}
 

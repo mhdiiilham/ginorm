@@ -8,6 +8,6 @@ import (
 // Todo ...
 func Todo(r *gin.Engine) {
 	r.GET("/todos", c.GetMyTodo)
-	r.GET("/todos/{id}", c.GetTodoByID)
+	r.GET("/todos/:id", c.GetTodoByID)
 	r.POST("/todos", c.CreateTodo)
 }

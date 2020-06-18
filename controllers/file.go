@@ -10,14 +10,14 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mhdiiilham/ginorm/models"
+	// "github.com/mhdiiilham/ginorm/models"
 	log "github.com/sirupsen/logrus"
 )
 
 // UploadSingleImage ...
 func UploadSingleImage(c *gin.Context) {
 	// Declare varible needed
-	var imageData models.IMGURResp
+	var imageData map[string]interface{}
 	var buf = new(bytes.Buffer)
 	writer := multipart.NewWriter(buf)
 
@@ -48,7 +48,7 @@ func UploadSingleImage(c *gin.Context) {
 	writer.Close()
 
 	//Prepare for the HTTP Request
-	req, err := http.NewRequest("POST", os.Getenv("IMGUR_URI"), imageFile)
+	req, err := http.NewRequest("POST", os.Getenv("IMGUR_URI"), buf)
 	if err != nil {
 		log.Info("Error on line 48 controller of file, err: ", err)
 		c.JSON(500, gin.H{"errors": "Internal Server Error"})

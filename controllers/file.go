@@ -10,7 +10,6 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	// "github.com/mhdiiilham/ginorm/models"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -67,6 +66,8 @@ func UploadSingleImage(c *gin.Context) {
 	}
 	defer resp.Body.Close()
 
+	// Read respon from imgur and assign it to imgurResp
+	// Parse imgurResp to map called imageData
 	imgurResp, err := ioutil.ReadAll(resp.Body)
 	if err := json.Unmarshal([]byte(imgurResp), &imageData); err != nil {
 		log.Info("Error on line 72 controller of file, err: ", err)

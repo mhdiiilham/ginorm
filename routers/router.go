@@ -8,7 +8,8 @@ import (
 // Router main func
 func Router() *gin.Engine {
 	r := gin.Default()
-
+	
+	File(r)
 	User(r)
 	r.Use(middleware.Authentication()) 
 	Todo(r)

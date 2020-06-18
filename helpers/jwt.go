@@ -2,11 +2,13 @@ package helpers
 
 import (
 	"fmt"
+	"os"
+	"strconv"
+	"time"
+
 	"github.com/dgrijalva/jwt-go"
 	m "github.com/mhdiiilham/ginorm/models"
 	log "github.com/sirupsen/logrus"
-	"strconv"
-	"time"
 )
 
 // CreateJWTToken ...
@@ -19,7 +21,7 @@ func CreateJWTToken(id uint, email string) (string, error) {
 
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 
-	return at.SignedString([]byte("HelloWorld123"))
+	return at.SignedString([]byte(os.Getenv("JWT_SECRET")))
 }
 
 // VerifyToken ...
@@ -28,7 +30,7 @@ func VerifyToken(ht string) (*jwt.Token, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", ok)
 		}
-		return []byte("HelloWorld123"), nil
+		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil {
 		return nil, err

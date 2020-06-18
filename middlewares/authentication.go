@@ -3,8 +3,6 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	h "github.com/mhdiiilham/ginorm/helpers"
-
-	// log "github.com/sirupsen/logrus"
 	"strings"
 )
 

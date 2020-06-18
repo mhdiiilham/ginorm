@@ -10,3 +10,15 @@ type Image struct {
 	DeleteHash string `json:"delete_has"`
 	ImgurID string `json:"imgur_id" gorm:"type:varchar(10)"`
 }
+
+// IMGURResp ...
+type IMGURResp struct {
+	data ImgData
+}
+
+// ImgData ...
+type ImgData struct {
+	id string
+	deletehash string
+	link string
+}

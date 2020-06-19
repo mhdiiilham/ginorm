@@ -9,9 +9,9 @@ import (
 func Router() *gin.Engine {
 	r := gin.Default()
 	
-	File(r)
 	User(r)
 	r.Use(middleware.Authentication()) 
+	File(r)
 	Todo(r)
 
 	return r

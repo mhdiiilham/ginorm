@@ -15,8 +15,9 @@ func GetMyTodo(c *gin.Context) {
 
 	// Fetch all todo from DB
 	// and assign it to todos
-	if err := db.MySQL().Where("user_id = ?", c.MustGet("userID")).Find(&todos); err != nil {
+	if err := db.MySQL().Where("user_id = ?", c.MustGet("userID")).Find(&todos).Error; != nil {
 		c.JSON(500, gin.H{"message": "Internal Server Error. Fething Todo failed, please try again!"})
+		return
 	}
 
 	// If all okay, send todo to client
@@ -33,7 +34,7 @@ func CreateTodo(c *gin.Context) {
 	var body m.TodoInput
 
 	// Validate the user input
-	if err := c.ShouldBindJSON(&body); err != nil {
+	if err := c.ShouldBindJSON(&body).Error(); err != nil {
 		c.JSON(400, gin.H{"errors": err.Error()})
 		return
 	}
@@ -45,7 +46,7 @@ func CreateTodo(c *gin.Context) {
 	}
 
 	// Save Todo
-	if err := db.MySQL().Save(&todo); err != nil {
+	if err := db.MySQL().Save(&todo).Error; err != nil {
 		c.JSON(500, gin.H{"errors": "Saving todo failed. Please try again"})
 		return
 	}

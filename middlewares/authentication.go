@@ -1,9 +1,11 @@
 package middleware
 
 import (
+	"net/http"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	h "github.com/mhdiiilham/ginorm/helpers"
-	"strings"
 )
 
 // Authentication ...
@@ -11,14 +13,14 @@ func Authentication() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		bearerToken := c.Request.Header["Authorization"]
 		if len(bearerToken) <= 0 {
-			c.JSON(400, gin.H{"errors": "NOT AUTHORIZED"})
+			c.JSON(http.StatusUnauthorized, gin.H{"errors": "NOT AUTHORIZED"})
 			c.Abort()
 			return
 		}
 
 		token := strings.Split(bearerToken[0], " ")[1]
 		if len(token) <= 0 {
-			c.JSON(400, gin.H{"errors": "NOT AUTHORIZED"})
+			c.JSON(http.StatusUnauthorized, gin.H{"errors": "NOT AUTHORIZED"})
 			c.Abort()
 			return
 		}
@@ -26,7 +28,7 @@ func Authentication() gin.HandlerFunc {
 		// Check if token valid or not
 		err := h.TokenValid(token)
 		if err != nil {
-			c.JSON(500, gin.H{"errors": "TOKEN NOT VALID"})
+			c.JSON(http.StatusInternalServerError, gin.H{"errors": "TOKEN NOT VALID"})
 			c.Abort()
 			return
 		}
@@ -34,7 +36,7 @@ func Authentication() gin.HandlerFunc {
 		// Extracted token metadata
 		metaData, err := h.ExtractedJWT(token)
 		if err != nil {
-			c.JSON(400, gin.H{"errors": "TOKEN NOT VALID"})
+			c.JSON(http.StatusUnauthorized, gin.H{"errors": "TOKEN NOT VALID"})
 			c.Abort()
 			return
 		}
